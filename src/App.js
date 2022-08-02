@@ -4,7 +4,7 @@ import { useGetCharacters } from './hooks/useGetCharacters'
 import { CharactersContainer } from './containers/CharactersContainer';
 import { Characters } from './components/Characters.jsx'
 import { CharacterCard } from './components/CharacterCard';
-import { Header } from './components/Header.jsx'
+import { Header } from './components/Header'
 
 function App() {
   const {

@@ -4,18 +4,12 @@ function useGetCharacters () {
     const [characters, setCharacters] = React.useState([])
     const [searchCharacter, setSearchCharacter] = React.useState('')
 
-    // const searchedValue = characters.filter((user) => {
-    //         return user.name.toLowerCase().includes(searchCharacter.toLowerCase())
-    //     })
-
     const searchedValue = React.useMemo(() => 
         characters.filter((user) => {
             return user.name.toLowerCase().includes(searchCharacter.toLowerCase())
         }),
         [characters, searchCharacter]
-        
     )
-
 
     React.useEffect(() => {
         async function getCharacter () {

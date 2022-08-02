@@ -4,15 +4,18 @@ import {useDarkMode} from '../hooks/useDarkMode.js'
 
 function Header ({searchCharacter, setSearchCharacter}) {
     const [colorTheme, setTheme] = useDarkMode()
+    const searchInput = React.useRef(null)
 
-    const onSearch = (event) => {
-        setSearchCharacter(event.target.value)
-    }
+    // const onSearch = () => {
+    //     setSearchCharacter(searchInput.current.value)
+    // }
+    const onSearch = React.useCallback(() => {
+        setSearchCharacter(searchInput.current.value)
+    }, [])
 
     return (
-        <header className="header flex justify-between items-center px-4 dark:bg-gray-300 transition duration-300">
-            <img
-                className="w-1/4"
+        <header className="header flex h-24 justify-between items-center px-4 dark:bg-gray-300 transition duration-300">
+            <img className="w-48"
                 src="https://www.vhv.rs/dpng/d/430-4305710_rick-and-morty-png-file-rick-e-morty.png"
             />
             <div className="flex gap-3">
@@ -21,6 +24,7 @@ function Header ({searchCharacter, setSearchCharacter}) {
                     type="text" 
                     value={searchCharacter}
                     onChange={onSearch}
+                    ref={searchInput}
                     />
                 <button
                     onClick={() => setTheme(colorTheme)}
