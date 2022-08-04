@@ -4,7 +4,6 @@ import { getRandomCharacters } from './useGetData'
 
 function useGetCharacters() {
   const [randomCharacters, setRandomCharacters] = useState([]);
-  const [loading, setLoading] = useState(false)
   // const [searchCharacter, setSearchCharacter] = React.useState("");
 
   // const searchedValue = React.useMemo(
@@ -17,17 +16,14 @@ function useGetCharacters() {
 
   React.useEffect(() => {
     try {
-      setLoading(true)
       getRandomCharacters()
         .then(setRandomCharacters)
-      setLoading(false)
     } catch (err) {
       console.log("Error", err);
     }
   }, []);
 
   return {
-    loading,
     randomCharacters,
   };
 }

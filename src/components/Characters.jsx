@@ -3,13 +3,14 @@ import { LoadingCharacterCard } from './LoadingCharacterCard/LoadingCharacterCar
 
 
 function Characters(props) {
+  console.log(props.randomCharacters.length)
   return (
     <>
       <section className="container mx-auto flex flex-wrap justify-center py-6">
-        {console.log("randomCharacters from Characters: ",props.randomCharacters)}
-        {props.randomCharacters.map(props.render)}
-        {props.children}
-        <LoadingCharacterCard />
+        {props.randomCharacters.length === 0 
+          ? Array(8).fill(<LoadingCharacterCard/>)
+          : props.randomCharacters.map(props.render)
+        }
       </section>
     </>
   );

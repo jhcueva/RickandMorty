@@ -7,7 +7,6 @@ import { Header } from './components/Header/Header'
 
 function App() {
   const {
-    loading,
     randomCharacters,
   } = useGetCharacters()
   return (
@@ -18,7 +17,6 @@ function App() {
       />
       <MainContainer>
         <Characters
-          loading={loading}
           randomCharacters={randomCharacters}
           // searchCharacter={searchCharacter}
           // searchedValue={searchedValue}
