@@ -1,40 +1,40 @@
-import logo from './logo.svg';
 import './App.css';
 import { useGetCharacters } from './hooks/useGetCharacters'
-import { CharactersContainer } from './containers/CharactersContainer';
+import { MainContainer } from './containers/MainContainer';
 import { Characters } from './components/Characters.jsx'
 import { CharacterCard } from './components/CharacterCard';
 import { Header } from './components/Header/Header'
 
 function App() {
   const {
-    characters,
-    searchCharacter,
-    setSearchCharacter,
-    searchedValue,
+    loading,
+    randomCharacters,
   } = useGetCharacters()
   return (
     <>
       <Header
-        searchCharacter={searchCharacter}
-        setSearchCharacter={setSearchCharacter}
+        // searchCharacter={searchCharacter}
+        // setSearchCharacter={setSearchCharacter}
       />
-      <Characters
-        characters={characters}
-        searchCharacter={searchCharacter}
-        searchedValue={searchedValue}
-        render = {character => (
-          <CharacterCard 
-            key={character.id}
-            name={character.name}
-            image={character.image}
-            status={character.status}
-            species={character.species}
-            location={character.location}
-          />
-        )}
-        >
-      </Characters>
+      <MainContainer>
+        <Characters
+          loading={loading}
+          randomCharacters={randomCharacters}
+          // searchCharacter={searchCharacter}
+          // searchedValue={searchedValue}
+          render = {randomCharacter => (
+            <CharacterCard 
+              key={randomCharacter.id}
+              name={randomCharacter.name}
+              image={randomCharacter.image}
+              status={randomCharacter.status}
+              species={randomCharacter.species}
+              location={randomCharacter.location}
+            />
+          )}
+          >
+        </Characters>
+      </MainContainer>
     </>
   );
 }

@@ -8,7 +8,8 @@ function CharacterCard(props) {
             <section className="w-full h-3/5 sm:h-full sm:w-3/5">
                 <img 
                     src={props.image} 
-                    className="rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none object-cover w-full h-full"/>
+                    className="rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none object-cover w-full h-full"
+                    alt={props.name}/>
             </section>
             <section 
                 className="flex flex-col w-full h-1/5 sm:h-full sm:justify-between py-4 px-2"

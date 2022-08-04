@@ -1,39 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import { getRandomCharacters } from './useGetData'
 
-function useGetCharacters () {
-    const [characters, setCharacters] = React.useState([])
-    const [searchCharacter, setSearchCharacter] = React.useState('')
 
-    const searchedValue = React.useMemo(() => 
-        characters.filter((user) => {
-            return user.name.toLowerCase().includes(searchCharacter.toLowerCase())
-        }),
-        [characters, searchCharacter]
-    )
+function useGetCharacters() {
+  const [randomCharacters, setRandomCharacters] = useState([]);
+  const [loading, setLoading] = useState(false)
+  // const [searchCharacter, setSearchCharacter] = React.useState("");
 
-    React.useEffect(() => {
-        async function getCharacter () {
-            const response = await fetch('https://rickandmortyapi.com/api/character')
-            const data = await response.json()
-            setCharacters(data.results)
-        }
-        try {
-            getCharacter()
-        }
-        catch (err) {
-            console.log("Error", err)
-        }
-    }, [])
+  // const searchedValue = React.useMemo(
+  //   () =>
+  //     randomCharacters.filter((user) => {
+  //       return user.name.toLowerCase().includes(searchCharacter.toLowerCase());
+  //     }),
+  //   [randomCharacters, searchCharacter]
+  // );
 
-    console.log(characters)
-
-    return {
-        characters,
-        searchCharacter,
-        setSearchCharacter,
-        searchedValue,
-
+  React.useEffect(() => {
+    try {
+      setLoading(true)
+      getRandomCharacters()
+        .then(setRandomCharacters)
+      setLoading(false)
+    } catch (err) {
+      console.log("Error", err);
     }
+  }, []);
+
+  return {
+    loading,
+    randomCharacters,
+  };
 }
 
-export { useGetCharacters }
+export { useGetCharacters };
