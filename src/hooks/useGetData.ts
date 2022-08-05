@@ -13,6 +13,7 @@ export const getRandomCharacters = async (): Promise<CharacterResponseAPI[]> => 
 export const getSingleCharacter = async (characterId):Promise<CharacterResponseAPI> => {
   const response = await fetch(`${API_CHARACTERS}/${characterId}`);
   const data = await response.json();
+  console.log("Data single character", data)
   return data
 }
 

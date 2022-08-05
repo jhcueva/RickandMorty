@@ -1,27 +1,38 @@
 import React from 'react'
+import { LoadingSingleCharacter } from '../LoadingSkeleton/LoadingSingleCharacter'
+import { CharacterResponseAPI} from '../../types'
 
-export const SingleCharacter = (props) => {
+
+export const SingleCharacter = (props: CharacterResponseAPI) => {
   return (
-    <div className='container mx-auto py-6 grid grid-cols-1 place-items-center'>
+    <div className='container mx-auto py-9 grid grid-cols-1 place-items-center'>
       <article
-        className="shadow-lg w-70 sm:flex sm:w-5/6 md:w-3/5 lg:w-1/3 lg:h-48 rounded-md m-5 dark:text-white dark:bg-gray-700"
+        className="shadow-lg w-3/4 sm:flex mt-5"
       >
-        <section className="w-full h-3/5 sm:h-full sm:w-3/5">
+        <section className="w-full">
             <img
               src={props.image}
-              className="rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none object-cover w-full h-full"
+              className="rounded-md object-cover w-full h-full"
               alt={props.name}
             />
         </section>
-        <section className="flex flex-col w-full h-1/5 sm:h-full sm:justify-between py-4 px-2">
+        <section className="flex flex-col w-full h-full sm:justify-between sm:px-6 text-white">
           <div className="name">
-            <h2 className="text-3xl text-bold">{props.name}</h2>
-            <p>
+            <h2 className="text-5xl text-bold py-4">{props.name}</h2>
+            <p className='text-xl'>
               {props.status} - {props.species}
             </p>
+
+            <p className='text-xl'>
+              Gender: {props.gender}
+            </p>
+            <p className='text-xl'>
+              Episodes: {props.episode.length}
+            </p>
           </div>
-          <div className="lastSeen">
-            <p className="text-gray-400">Last known location:</p>
+          <div className="lastSeen mt-3">
+            <p className="text-gray-400 text-2xl">Last known location:</p>
+            <p className='text-xl'> {props.location.name} </p>
           </div>
         </section>
       </article>

@@ -3,20 +3,46 @@ import { useParams } from 'react-router-dom'
 import { GlobalContainer } from '../containers/GlobalContainer.jsx'
 import { getSingleCharacter } from '../hooks/useGetData'
 import { SingleCharacter } from '../components/SingleCharacter/SingleCharacter'
-import { CharacterResponseAPI } from '../types.js'
+import { CharacterResponseAPI} from '../types'
+import { LoadingSingleCharacter } from '../components/LoadingSkeleton/LoadingSingleCharacter'
+
+const SingleCharacterData = {
+  id: 0,
+  name: '',
+  status: '',
+  species: '',
+  type: '',
+  gender: '',
+  origin: {
+    name: '',
+    url: ''
+  },
+  location: {
+    name: '',
+    url: '',
+  },
+  image: '',
+  episode: [],
+  url: '',
+  created: new Date(),
+}
 
 
 export const Character = () => {
   let { characterId } = useParams()
-  const [singleCharacter, setSingleCharacter] = useState<CharacterResponseAPI>([])
+  const [singleCharacter, setSingleCharacter] = useState<CharacterResponseAPI>(SingleCharacterData)
   console.log(typeof singleCharacter)
+  try {
+    console.log(singleCharacter.location.name)
+  } catch (err) {
+    console.error("Error single character location", err)
+  }
 
   useEffect(() => {
     try {
       getSingleCharacter(characterId)
-        .then(response => console.log(response))
-        // .then(setSingleCharacter)
-    } catch(err) {
+        .then(setSingleCharacter)
+    } catch (err) {
       console.log("Error:", err)
     }
   }, [])
@@ -25,12 +51,11 @@ export const Character = () => {
 
   return (
     <GlobalContainer>
-      <SingleCharacter
-        name={singleCharacter.name}
-        image={singleCharacter.image}
-        status={singleCharacter.status}
-        species={singleCharacter.species}
-      />
+      {
+        singleCharacter.name.length === 0
+        ? <LoadingSingleCharacter/>
+        : <SingleCharacter {...singleCharacter} />
+      }
     </GlobalContainer>
   )
 }

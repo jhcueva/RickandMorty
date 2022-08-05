@@ -1,5 +1,5 @@
 import React from "react";
-import { LoadingCharacterCard } from './LoadingCharacterCard/LoadingCharacterCard'
+import { LoadingCharacterCard } from './LoadingSkeleton/LoadingCharacterCard'
 
 
 function Characters(props) {
