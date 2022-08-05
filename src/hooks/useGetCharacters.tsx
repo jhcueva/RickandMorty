@@ -18,7 +18,7 @@ function useGetCharacters() {
 
   React.useEffect(() => {
     try {
-      getRandomCharacters()
+      getRandomCharacters(8)
         .then(setRandomCharacters)
     } catch (err) {
       console.log("Error", err);

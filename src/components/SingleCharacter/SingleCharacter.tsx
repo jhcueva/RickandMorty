@@ -1,5 +1,4 @@
 import React from 'react'
-import { LoadingSingleCharacter } from '../LoadingSkeleton/LoadingSingleCharacter'
 import { CharacterResponseAPI} from '../../types'
 
 

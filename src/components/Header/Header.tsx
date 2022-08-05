@@ -19,7 +19,10 @@ function Header() {
       <Link to='/'>
         <img className="w-48" src={Logo} alt="Logo" />
       </Link>
-      <div className="flex gap-3">
+      <div className="flex items-center gap-3">
+        <Link to='/play'>
+          <span className="dark:text-white text-xl">Play</span>
+        </Link>
         <input
           className="rounded p-2 bg-slate-100 dark:bg-slate-50"
           placeholder="Search"
