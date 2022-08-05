@@ -1,39 +1,17 @@
-import './App.css';
-import { useGetCharacters } from './hooks/useGetCharacters'
-import { MainContainer } from './containers/MainContainer';
-import { Characters } from './components/Characters.jsx'
-import { CharacterCard } from './components/CharacterCard';
+import React from 'react'
+import { Route, Routes, BrowserRouter } from 'react-router-dom'
 import { Header } from './components/Header/Header'
+import { Home } from './pages/Home'
+import { Character } from './pages/Character'
 
-function App() {
-  const {
-    randomCharacters,
-  } = useGetCharacters()
+export const App = () => {
   return (
-    <>
-      <Header
-        // searchCharacter={searchCharacter}
-        // setSearchCharacter={setSearchCharacter}
-      />
-      <MainContainer>
-        <Characters
-          randomCharacters={randomCharacters}
-          // searchCharacter={searchCharacter}
-          // searchedValue={searchedValue}
-          render = {randomCharacter => (
-            <CharacterCard 
-              key={randomCharacter.id}
-              name={randomCharacter.name}
-              image={randomCharacter.image}
-              status={randomCharacter.status}
-              species={randomCharacter.species}
-              location={randomCharacter.location}
-            />
-          )}
-          >
-        </Characters>
-      </MainContainer>
-    </>
-  );
+    <BrowserRouter>
+      <Header/>
+      <Routes>
+          <Route index element={<Home />}/>
+          <Route path='/detail/:characterId' element={<Character/>}/>
+      </Routes>    
+    </BrowserRouter>
+  )
 }
-export default App

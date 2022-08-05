@@ -1,6 +1,7 @@
 import React from "react";
 import { useDarkMode } from '../../hooks/useDarkMode.js'
 import Logo from './logo.png'
+import { Link } from "react-router-dom";
 
 function Header() {
   const [colorTheme, setTheme] = useDarkMode()
@@ -15,7 +16,9 @@ function Header() {
 
   return (
     <header className="header flex h-24 justify-between items-center px-4 dark:bg-slate-800 transition duration-300">
-      <img className="w-48" src={Logo} alt="Logo" />
+      <Link to='/'>
+        <img className="w-48" src={Logo} alt="Logo" />
+      </Link>
       <div className="flex gap-3">
         <input
           className="rounded p-2 bg-slate-100 dark:bg-slate-50"

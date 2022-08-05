@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { getRandomCharacters } from './useGetData'
+import { CharacterResponseAPI } from '../types.js'
+
 
 
 function useGetCharacters() {
-  const [randomCharacters, setRandomCharacters] = useState([]);
+  const [randomCharacters, setRandomCharacters] = useState<CharacterResponseAPI[]>([]);
   // const [searchCharacter, setSearchCharacter] = React.useState("");
 
   // const searchedValue = React.useMemo(
