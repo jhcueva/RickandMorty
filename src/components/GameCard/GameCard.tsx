@@ -9,7 +9,7 @@ export const GameCard = ({ card, id, handleChoice, flipped, disabled }) => {
   }
 
   return (
-    <div className='card'>
+    <div className='card' key={id}>
       <div className={flipped ? "flipped" : ""}>
         <img className='front object-cover w-ful h-full' src={card.img} alt='cardFront' />
         <img

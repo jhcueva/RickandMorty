@@ -9,6 +9,7 @@ export const MemoryGame = () => {
   const [choiceOne, setChoiceOne] = useState(null)
   const [choiceTwo, setChoiceTwo] = useState(null)
   const [disabled, setDisabled] = useState(false)
+  const [newGame, setNewGame] = useState(false)
 
 
   const shuffleCards = () => {
@@ -24,7 +25,10 @@ export const MemoryGame = () => {
 
   const handleChoice = (card) => {
     choiceOne ? setChoiceTwo(card) : setChoiceOne(card)
+  }
 
+  const handleNewGame = () => {
+    setNewGame(true)
   }
 
   const resetTurn = () => {
@@ -37,12 +41,16 @@ export const MemoryGame = () => {
   useEffect(() => {
     try {
       getRandomCharacters(8)
-        .then(response => response.map(character => ({ img: character.image, matched: false })))
+        .then(response => response.map(character => 
+          ({ img: character.image, matched: false }))
+          )
         .then(setCardImage)
+      shuffleCards()
+      setNewGame(false)
     } catch (err) {
       console.log("Error: ", err)
     }
-  }, [])
+  }, [newGame])
 
   useEffect(() => {
     if (choiceOne && choiceTwo) {
@@ -66,9 +74,9 @@ export const MemoryGame = () => {
   }, [choiceOne, choiceTwo])
 
   return (
-    <div className='container mx-auto flex flex-col'>
-      <button onClick={shuffleCards} className='dark:text-white'>New Game</button>
-      <div className='grid grid-cols-4 gap-4'>
+    <div className='container mx-auto flex flex-col items-center lg:px-80'>
+      <button type="button" onClick={handleNewGame} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 text-lg font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">New Game</button>
+      <div className='grid grid-cols-4 gap-4 my-10'>
         {
           cards.map(card => 
             <GameCard 
@@ -81,7 +89,7 @@ export const MemoryGame = () => {
           )
         }
       </div>
-      <p className='dark:text-white'>Turns: {turns}</p>
+      <span className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-lg px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Turns: {turns}</span>
     </div>
   )
 }
