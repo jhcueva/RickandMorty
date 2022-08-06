@@ -1,15 +1,49 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import { getRandomCharacters } from '../../hooks/useGetData'
 import { GameCard } from '../GameCard/GameCard'
 
+enum actionTypes {
+  CARD_IMAGE,
+  SHUFFLE_CARD,
+}
+
+interface CardAPI {
+  img: string,
+  matched: boolean
+}
+
+interface Card {
+  img: string,
+  matched: boolean
+  id: number
+}
+
+interface actionCardImage {
+  type: actionTypes.CARD_IMAGE
+  payload: CardAPI[]
+}
+
+interface actionShuffleCard {
+  type: actionTypes.SHUFFLE_CARD
+  payload: Card[]
+}
+
 export const MemoryGame = () => {
-  const [cardImages, setCardImage] = useState([])
+  // const [cardImages, setCardImage] = useState([])
   const [cards, setCards] = useState([])
   const [turns, setTurns] = useState(0)
   const [choiceOne, setChoiceOne] = useState(null)
   const [choiceTwo, setChoiceTwo] = useState(null)
   const [disabled, setDisabled] = useState(false)
   const [newGame, setNewGame] = useState(false)
+
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  const onCardImage = (cardAPI) => dispatch({type: actionTypes.CARD_IMAGE, payload: cardAPI})
+
+  const {
+    cardImages,
+  } = state
 
 
   const shuffleCards = () => {
@@ -44,7 +78,7 @@ export const MemoryGame = () => {
         .then(response => response.map(character => 
           ({ img: character.image, matched: false }))
           )
-        .then(setCardImage)
+        .then(onCardImage)
       shuffleCards()
       setNewGame(false)
     } catch (err) {
@@ -92,4 +126,27 @@ export const MemoryGame = () => {
       <span className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-lg px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Turns: {turns}</span>
     </div>
   )
+}
+
+const initialState = {
+  cardImages: [],
+  card: [],
+  choiceOne: null,
+  choiceTwo: null,
+}
+
+const reducer = (state, action: actionCardImage | actionShuffleCard) => {
+  switch (action.type) {
+    case actionTypes.CARD_IMAGE:
+      return {
+        ...state,
+        cardImages: action.payload
+      }
+    case actionTypes.SHUFFLE_CARD: 
+      return {
+        ...state,
+
+      }
+  }
+
 }
