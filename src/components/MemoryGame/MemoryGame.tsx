@@ -1,10 +1,27 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import { getRandomCharacters } from '../../hooks/useGetData'
 import { GameCard } from '../GameCard/GameCard'
+// import {actionTypes, InitialState, actions} from './models'
 
 enum actionTypes {
   CARD_IMAGE,
+  CARD,
   SHUFFLE_CARD,
+  CHOICE_ONE,
+  CHOICE_TWO,
+  RESET_TURN,
+  DISABLED,
+  NEW_GAME,
+}
+
+interface InitialState {
+  cardImages: CardAPI[]
+  cards: Card[]
+  turns: number
+  choiceOne: Card | null
+  choiceTwo: Card | null
+  disabled: boolean
+  newGame: boolean
 }
 
 interface CardAPI {
@@ -18,6 +35,8 @@ interface Card {
   id: number
 }
 
+type actions = actionCardImage | actionShuffleCard | actionCard | actionChoiceOne | actionChoiceTwo | actionResetTurn | actionDisable | actionsNewGame
+
 interface actionCardImage {
   type: actionTypes.CARD_IMAGE
   payload: CardAPI[]
@@ -28,21 +47,55 @@ interface actionShuffleCard {
   payload: Card[]
 }
 
-export const MemoryGame = () => {
-  // const [cardImages, setCardImage] = useState([])
-  const [cards, setCards] = useState([])
-  const [turns, setTurns] = useState(0)
-  const [choiceOne, setChoiceOne] = useState(null)
-  const [choiceTwo, setChoiceTwo] = useState(null)
-  const [disabled, setDisabled] = useState(false)
-  const [newGame, setNewGame] = useState(false)
+interface actionCard {
+  type: actionTypes.CARD
+}
 
+interface actionChoiceOne {
+  type: actionTypes.CHOICE_ONE
+  payload: Card
+}
+
+interface actionChoiceTwo {
+  type: actionTypes.CHOICE_TWO
+  payload: Card
+}
+
+interface actionResetTurn {
+  type: actionTypes.RESET_TURN
+}
+
+interface actionDisable {
+  type: actionTypes.DISABLED
+}
+
+interface actionsNewGame {
+  type: actionTypes.NEW_GAME
+}
+
+export const MemoryGame = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const onCardImage = (cardAPI) => dispatch({type: actionTypes.CARD_IMAGE, payload: cardAPI})
+  const onShuffleCard = (card) => dispatch({ type: actionTypes.SHUFFLE_CARD, payload: card})
+  const onCard = () => {
+    dispatch({ type: actionTypes.CARD })
+
+  }
+  const onChoiceOne = (cardInfo) => dispatch({ type: actionTypes.CHOICE_ONE, payload: cardInfo})
+  const onChoiceTwo = (cardInfo) => dispatch({ type: actionTypes.CHOICE_TWO, payload: cardInfo})
+  const onResetTurn = () => dispatch({ type: actionTypes.RESET_TURN })
+  const onDisable = () => dispatch({ type: actionTypes.DISABLED})
+  const onNewGame = () => dispatch({ type: actionTypes.NEW_GAME})
 
   const {
     cardImages,
+    cards,
+    choiceOne,
+    choiceTwo,
+    turns,
+    disabled,
+    newGame,
   } = state
 
 
@@ -51,25 +104,19 @@ export const MemoryGame = () => {
     .sort(() => Math.random() - 0.5)
     .map((card) => ({  ...card, id: Math.random() }))
 
-    setChoiceOne(null)
-    setChoiceTwo(null)
-    setCards(shuffledCards)
-    setTurns(0)
+    onShuffleCard(shuffledCards)
   }
 
   const handleChoice = (card) => {
-    choiceOne ? setChoiceTwo(card) : setChoiceOne(card)
+    choiceOne ? onChoiceTwo(card) : onChoiceOne(card)
   }
 
   const handleNewGame = () => {
-    setNewGame(true)
+    onNewGame()
   }
 
   const resetTurn = () => {
-    setChoiceOne(null)
-    setChoiceTwo(null)
-    setTurns(prevTurns => prevTurns + 1)
-    setDisabled(false)
+    onResetTurn()
   }
 
   useEffect(() => {
@@ -79,8 +126,7 @@ export const MemoryGame = () => {
           ({ img: character.image, matched: false }))
           )
         .then(onCardImage)
-      shuffleCards()
-      setNewGame(false)
+        .then(() => shuffleCards())
     } catch (err) {
       console.log("Error: ", err)
     }
@@ -88,19 +134,14 @@ export const MemoryGame = () => {
 
   useEffect(() => {
     if (choiceOne && choiceTwo) {
-      setDisabled(true)
+      onDisable()
       if(choiceOne.img === choiceTwo.img) {
-        setCards(prevCard => {
-          return prevCard.map(card => {
-            if (card.img === choiceOne.img) {
-              return { ...card, matched: true}
-            } else {
-              return card
-            }
-          }
-          )
-        })
-        resetTurn()
+        try{
+          onCard()
+          resetTurn()
+        } catch (err) {
+          console.log("Error sameCards: ", err)
+        }
       } else {
         setTimeout(() => resetTurn(), 700)
       }
@@ -128,25 +169,70 @@ export const MemoryGame = () => {
   )
 }
 
-const initialState = {
+const initialState: InitialState = {
   cardImages: [],
-  card: [],
+  cards: [],
+  turns: 0,
   choiceOne: null,
   choiceTwo: null,
+  disabled: false,
+  newGame: false,
 }
 
-const reducer = (state, action: actionCardImage | actionShuffleCard) => {
+const reducer = (state = initialState, action: actions) => {
   switch (action.type) {
     case actionTypes.CARD_IMAGE:
       return {
         ...state,
         cardImages: action.payload
       }
+    case actionTypes.CARD:
+      return {
+        ...state,
+        cards: state.cards.map(card => {
+          if (card.img === state.choiceOne.img) {
+            return { ...card, matched: true}
+          } else {
+            return card
+          }
+        })
+      }
     case actionTypes.SHUFFLE_CARD: 
       return {
         ...state,
-
+        choiceOne: null,
+        choiceTwo: null,
+        cards: action.payload,
+        newGame: true,
+        turns: 0
+      }
+    case actionTypes.CHOICE_ONE:
+      return {
+        ...state,
+        choiceOne: action.payload
+      }
+    case actionTypes.CHOICE_TWO:
+      return {
+        ...state,
+        choiceTwo: action.payload
+      }
+    case actionTypes.RESET_TURN:
+      return {
+        ...state,
+        choiceOne: null,
+        choiceTwo: null,
+        turns: state.turns + 1,
+        disabled: false
+      }
+    case actionTypes.DISABLED:
+      return {
+        ...state,
+        disabled: true
+      }
+    case actionTypes.NEW_GAME:
+      return {
+        ...state,
+        newGame: !state.newGame
       }
   }
-
 }
