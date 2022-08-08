@@ -3,7 +3,7 @@ import { useGetCharacters } from '../hooks/useGetCharacters'
 import { GlobalContainer } from '../containers/GlobalContainer.jsx'
 import { Characters } from '../components/Characters.jsx'
 import { CharacterCard } from '../components/CharacterCard';
-
+import { Layout } from '../components/Layout';
 
 export const Home = () => {
   const {
@@ -11,6 +11,7 @@ export const Home = () => {
   } = useGetCharacters()
   return (
     <GlobalContainer>
+      <Layout subTitle='Your favorite web from your favorite show'/>
       <Characters
         randomCharacters={randomCharacters}
         // searchCharacter={searchCharacter}

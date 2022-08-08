@@ -5,6 +5,7 @@ import { getSingleCharacter } from '../hooks/useGetData'
 import { SingleCharacter } from '../components/SingleCharacter/SingleCharacter'
 import { CharacterResponseAPI} from '../types'
 import { LoadingSingleCharacter } from '../components/LoadingSkeleton/LoadingSingleCharacter'
+import { Layout } from '../components/Layout/index'
 
 const SingleCharacterData = {
   id: 0,
@@ -51,6 +52,7 @@ export const Character = () => {
 
   return (
     <GlobalContainer>
+      <Layout title={singleCharacter.name}/>
       {
         singleCharacter.name.length === 0
         ? <LoadingSingleCharacter/>

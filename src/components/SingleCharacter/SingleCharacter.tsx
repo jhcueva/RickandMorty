@@ -15,7 +15,7 @@ export const SingleCharacter = (props: CharacterResponseAPI) => {
               alt={props.name}
             />
         </section>
-        <section className="flex flex-col w-full h-full sm:justify-between sm:px-6 text-white">
+        <section className="flex flex-col w-full h-full sm:justify-between sm:px-6 dark:text-white">
           <div className="name">
             <h2 className="text-5xl text-bold py-4">{props.name}</h2>
             <p className='text-xl'>
