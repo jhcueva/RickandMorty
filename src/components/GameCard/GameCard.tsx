@@ -11,9 +11,9 @@ export const GameCard = ({ card, id, handleChoice, flipped, disabled }) => {
   return (
     <div className='card' key={id}>
       <div className={flipped ? "flipped" : ""}>
-        <img className='front object-cover w-ful h-full' src={card.img} alt='cardFront' />
+        <img className='front object-cover w-96 h-full' src={card.img} alt='cardFront' />
         <img
-          className='back object-cover w-full h-full' onClick={handleCLick} src={Portal} alt='cardBack' />
+          className={`back object-cover w-96 h-full ${!disabled && 'hover:cursor-pointer'}`} onClick={handleCLick} src={Portal} alt='cardBack' />
       </div>
     </div>
   )
