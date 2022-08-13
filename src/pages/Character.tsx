@@ -32,12 +32,6 @@ const SingleCharacterData = {
 export const Character = () => {
   let { characterId } = useParams()
   const [singleCharacter, setSingleCharacter] = useState<CharacterResponseAPI>(SingleCharacterData)
-  console.log(typeof singleCharacter)
-  try {
-    console.log(singleCharacter.location.name)
-  } catch (err) {
-    console.error("Error single character location", err)
-  }
 
   useEffect(() => {
     try {

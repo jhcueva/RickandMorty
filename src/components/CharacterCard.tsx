@@ -8,7 +8,7 @@ function CharacterCard(props) {
       key={props.id}
     >
       <section className="w-full h-3/5 sm:h-full sm:w-3/5">
-        <Link to={`detail/${props.id}`}>
+        <Link to={`/detail/${props.id}`}>
           <img
             src={props.image}
             className="rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none object-cover w-full h-full"

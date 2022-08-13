@@ -13,9 +13,7 @@ export const Home = () => {
     <GlobalContainer>
       <Layout subTitle='Your favorite web from your favorite show'/>
       <Characters
-        randomCharacters={randomCharacters}
-        // searchCharacter={searchCharacter}
-        // searchedValue={searchedValue}
+        characters={randomCharacters}
         render={randomCharacter => (
           <CharacterCard
             id={randomCharacter.id}
@@ -26,8 +24,7 @@ export const Home = () => {
             location={randomCharacter.location}
           />
         )}
-      >
-      </Characters>
+      />
     </GlobalContainer>
   )
 }

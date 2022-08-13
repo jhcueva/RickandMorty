@@ -21,16 +21,19 @@ function Header() {
       </Link>
       <div className="flex items-center gap-3">
         <Link to='/play'>
-          <span className="dark:text-white text-xl">Play</span>
+          <span className="dark:text-white text-xl">Memory Game</span>
         </Link>
-        <input
+        <Link to='/episodes'>
+          <span className="dark:text-white text-xl">Episodes</span>
+        </Link>
+        {/* <input
           className="rounded p-2 bg-slate-100 dark:bg-slate-50"
           placeholder="Search"
           type="text"
           // value={searchCharacter}
           // onChange={onSearch}
           ref={searchInput}
-        />
+        /> */}
         <button
           onClick={() => setTheme(colorTheme)}
         >{colorTheme === 'dark' ?
